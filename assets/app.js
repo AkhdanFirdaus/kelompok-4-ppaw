@@ -138,7 +138,7 @@ function halamanIndex() {
             })
         
             item.addEventListener('click', () => {
-                window.location = 'profil.html?id=' + index
+                window.location = 'profil.html?person=' + people[index].url
             })
         })
     }
@@ -147,7 +147,8 @@ function halamanIndex() {
     initTimHover()
 }
 
-function halamanProfil(index) {
+function halamanProfil(url) {
+    const index = people.findIndex(e => e.url == url);
     const person = people[index]
 
     function setKonten() {
@@ -249,7 +250,7 @@ window.addEventListener('resize', () => {
     const width = window.innerWidth
     const height = window.innerHeight
     
-    if (width <= 640) {
+    if (width <= 768) {
         document.getElementById('intro-section').classList.add('flex-column', 'flex-column-reverse')
     } else {
         document.getElementById('intro-section').classList.remove('flex-column', 'flex-column-reverse')

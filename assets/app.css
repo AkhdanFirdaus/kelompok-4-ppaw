@@ -9,7 +9,7 @@
   margin: 2rem;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .card {
     width: 100%;
     margin: 2rem;
