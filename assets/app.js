@@ -53,7 +53,7 @@ const people = [
         },
         skill: {
             deskripsi: 'Saya mampu berbahasa inggris secara pasif, mampu bekerja sama tim, menguasai microsoft office, menguasai bahasa pemrograman PHP, Java serta framework Laravel',
-            listSkill: ['Kerja Tim'],
+            listSkill: ['Kerja Tim', 'Semangat', 'Komunikatif', 'Management'],
         },
         organisasi: [
             {nama: 'Himpunan Mahasiswa Teknik Informatika (HIMATIF)', tahunMulai: '2020', tahunSelesai: '2021'},
@@ -123,21 +123,22 @@ function halamanIndex() {
             </div>`
             peopleHtml += personHtml
         })
-        document.getElementById('team').innerHTML = peopleHtml
+        $('#team').html(peopleHtml)
     }
     
     
     function initTimHover() {
-        document.querySelectorAll('.person').forEach((item, index) => {
-            item.addEventListener('mouseover', () => {
-                item.classList.add('shadow', 'transisi')
+        $('.person').each((index, item) => {
+            console.log(index, item)
+            $(item).on('mouseover', () => {
+                $(item).addClass('shadow', 'transisi')
             })
         
-            item.addEventListener('mouseleave', () => {
-                item.classList.remove('shadow', 'transisi')
+            $(item).on('mouseleave', () => {
+                $(item).removeClass('shadow', 'transisi')
             })
         
-            item.addEventListener('click', () => {
+            $(item).on('click', () => {
                 window.location = 'profil.html?person=' + people[index].url
             })
         })
@@ -152,34 +153,33 @@ function halamanProfil(url) {
     const person = people[index]
 
     function setKonten() {
-        // document.getElementsByClassName('warnadasar').style.backgroundColor = "red"
-        document.getElementById('fotoProfil').style.backgroundImage = `url('${person.photo}')`
-        document.getElementById('nama').innerText = person.nama
-        document.getElementById('intro').innerText = person.intro
-        document.getElementById('ttl').innerText = person.ttl
-        document.getElementById('fotoProfil').src = person.photo
-        document.getElementById('deskripsi-skill').innerText = person.skill.deskripsi
-        document.getElementById('alamat').innerText = person.alamat
-        document.getElementById('gmail').innerText = person.sosmed.email
-        document.getElementById('wa').innerText = person.sosmed.wa
-        document.getElementById('ig').innerText = person.sosmed.ig
-        document.getElementById('twt').innerText = person.sosmed.twitter
+        $('.warnadasar').css('background-color',person.color)
+        $('#fotoProfil').css('background-image', `url('${person.photo}')`)
+        $('#nama').text(person.nama)
+        $('#intro').text(person.intro)
+        $('#ttl').text(person.ttl)
+        $('#fotoProfil').attr('src', person.photo)
+        $('#deskripsi-skill').text(person.skill.deskripsi)
+        $('#alamat').text(person.alamat)
+        $('#gmail').text(person.sosmed.email)
+        $('#wa').text(person.sosmed.wa)
+        $('#ig').text(person.sosmed.ig)
+        $('#twt').text(person.sosmed.twitter)
 
     }
 
     function redirect() {
-        document.querySelector('#sosmed-redirect').childNodes.forEach((item) => {
-            item.addEventListener('click', () => {
-                console.log(item.classList)
-                if (item.classList.contains('wa')) {
+        $('#sosmed-redirect').each((item) => {
+            $(item).on('click', () => {
+                if ($(item).hasClass('wa')) {
                    window.open("tel: " + person.sosmed.wa, '_blank')
                 }
                 
-                if (item.classList.contains('ig')) {
+                if ($(item).hasClass('ig')) {
                     window.open("https://www.instagram.com/" + person.sosmed.ig, '_blank')
                 }
                 
-                if (item.classList.contains('twt')) {
+                if ($(item).hasClass('twt')) {
                     window.open("https://twitter.com/" + person.sosmed.twitter, '_blank')
                 }
             })
@@ -194,7 +194,7 @@ function halamanProfil(url) {
             var nodeHtml = `<div class="p-3 m-2 bg-white rounded">${skill}</div>`
             htmlBaru += nodeHtml
         })
-        document.getElementById('skill').innerHTML = htmlBaru
+        $('#skill').html(htmlBaru)
     }
 
     function tampilRiwayatPendidikan() {
@@ -211,7 +211,7 @@ function halamanProfil(url) {
             </div>`
             htmlBaru += nodeHtml
         })
-        document.getElementById('riwayat-pendidikan').innerHTML = htmlBaru
+        $('#riwayat-pendidikan').html(htmlBaru)
     }
 
     function tampilPengalaman() {
@@ -220,7 +220,7 @@ function halamanProfil(url) {
             var nodeHtml = `<li class="p-3 m-2 bg-white rounded">${pengalaman.nama} <strong>(${pengalaman.tahunMulai})</strong></li>`
             htmlBaru += nodeHtml
         })
-        document.getElementById('pengalaman').innerHTML = htmlBaru
+        $('#pengalaman').html(htmlBaru)
     }
 
     function tampilRiwayatOrganisasi() {
@@ -234,7 +234,7 @@ function halamanProfil(url) {
             </li>`
             htmlBaru += nodeHtml
         })
-        document.getElementById('riwayat-organisasi').innerHTML = htmlBaru
+        $('#riwayat-organisasi').html(htmlBaru)
     }
 
     document.title = person.nama
@@ -246,13 +246,24 @@ function halamanProfil(url) {
     tampilRiwayatOrganisasi()
 }
 
-window.addEventListener('resize', () => {
+$(window).on('resize', () => {
     const width = window.innerWidth
     const height = window.innerHeight
     
     if (width <= 768) {
-        document.getElementById('intro-section').classList.add('flex-column', 'flex-column-reverse')
+        $('#intro-section').addClass('flex-column', 'flex-column-reverse')
     } else {
-        document.getElementById('intro-section').classList.remove('flex-column', 'flex-column-reverse')
+        $('#intro-section').removeClass('flex-column', 'flex-column-reverse')
+    }
+})
+
+
+$(window).scroll(() => {
+    var position = $(window).scrollTop()
+
+    if (position >= 100) {
+        $('#navigasi').removeClass('position-absolute').addClass('sticky-top')
+    } else {
+        $('#navigasi').removeClass('sticky-top').addClass('position-absolute')
     }
 })
