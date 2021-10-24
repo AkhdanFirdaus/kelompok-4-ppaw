@@ -10,10 +10,21 @@
 }
 
 @media (max-width: 768px) {
+  #intro-section {
+    flex-direction: column-reverse;
+  }
+  #intro-section > * {
+    margin-bottom: 18px;
+  }
+
   .card {
     width: 100%;
     margin: 2rem;
     cursor: pointer;
+  }
+
+  #ava {
+    height: 200px;
   }
 }
 

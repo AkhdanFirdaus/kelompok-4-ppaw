@@ -108,12 +108,11 @@ const people = [
 
 function halamanIndex() {
     function initTim() {
-        var peopleHtml = '';
         people.forEach((person) => {
             var personHtml = `<div class="person card border-0">
                 <div class="row g-0">
-                    <div class="col-md-3" style="background-image: url('${person.photo}'); background-size: cover; background-position: center center; border-radius: 4px;"></div>
-                    <div class="col-md-9">
+                    <div class="col-md-3 col-sm-12" style="background-image: url('${person.photo}'); background-size: cover; background-position: center center; border-radius: 4px;" id="ava"></div>
+                    <div class="col-md-9 col-sm-12">
                         <div class="card-body">
                             <h5 class="card-title">${person.nama}</h5>
                             <p class="card-text">${person.intro}</p>
@@ -121,24 +120,24 @@ function halamanIndex() {
                     </div>
                 </div>
             </div>`
-            peopleHtml += personHtml
+            $('#team').append(personHtml)
         })
-        $('#team').html(peopleHtml)
     }
     
     
     function initTimHover() {
         $('.person').each((index, item) => {
-            console.log(index, item)
-            $(item).on('mouseover', () => {
-                $(item).addClass('shadow', 'transisi')
+            $(item).on('mouseover', function() {
+                console.log('mouse over')
+                $(this).addClass('shadow', 'transisi')
+            })
+            
+            $(item).on('mouseleave', function() {
+                console.log('mouse leave')
+                $(this).removeClass('shadow', 'transisi')
             })
         
-            $(item).on('mouseleave', () => {
-                $(item).removeClass('shadow', 'transisi')
-            })
-        
-            $(item).on('click', () => {
+            $(item).on('click', function() {
                 window.location = 'profil.html?person=' + people[index].url
             })
         })
@@ -189,19 +188,16 @@ function halamanProfil(url) {
     }
 
     function tampilSkill() {
-        var htmlBaru = ''
         person.skill.listSkill.forEach((skill) => {
-            var nodeHtml = `<div class="p-3 m-2 bg-white rounded">${skill}</div>`
-            htmlBaru += nodeHtml
+            var nodeHtml = `<div class="p-3 m-2 bg-white rounded animate__animated">${skill}</div>`
+            $('#skill').append(nodeHtml)
         })
-        $('#skill').html(htmlBaru)
     }
 
     function tampilRiwayatPendidikan() {
-        var htmlBaru = ''
         person.pendidikan.forEach((pendidikan) => {
             var nodeHtml = `<div class="col">
-                <div class="card w-75 p-2 shadow-sm">
+                <div class="card w-75 p-2 shadow-sm animate__animated">
                     <div class="card-body">
                         <h5 class="card-title">${pendidikan.nama.split(' ')[0]}</h5>
                         <p class="card-text">${pendidikan.nama}</p>
@@ -209,32 +205,27 @@ function halamanProfil(url) {
                     </div>
                 </div>
             </div>`
-            htmlBaru += nodeHtml
+            $('#riwayat-pendidikan').append(nodeHtml)
         })
-        $('#riwayat-pendidikan').html(htmlBaru)
     }
 
     function tampilPengalaman() {
-        var htmlBaru = ''
         person.pengalaman.forEach((pengalaman) => {
-            var nodeHtml = `<li class="p-3 m-2 bg-white rounded">${pengalaman.nama} <strong>(${pengalaman.tahunMulai})</strong></li>`
-            htmlBaru += nodeHtml
+            var nodeHtml = `<li class="p-3 m-2 bg-white rounded animate__animated">${pengalaman.nama} <strong>(${pengalaman.tahunMulai})</strong></li>`
+            $('#pengalaman').append(nodeHtml)
         })
-        $('#pengalaman').html(htmlBaru)
     }
 
     function tampilRiwayatOrganisasi() {
-        var htmlBaru = ''
         person.organisasi.forEach((organisasi) => {
-            var nodeHtml = `<li class="p-3 m-2 bg-white rounded">
+            var nodeHtml = `<li class="p-3 m-2 bg-white rounded animate__animated">
                 <div class="d-flex flex-column">
                     <p>${organisasi.nama}</p>
                     <p class="badge bg-primary"><small>${organisasi.tahunMulai} - ${organisasi.tahunSelesai}</small></p>
                 </div>
             </li>`
-            htmlBaru += nodeHtml
+            $('#riwayat-organisasi').append(nodeHtml)
         })
-        $('#riwayat-organisasi').html(htmlBaru)
     }
 
     document.title = person.nama
@@ -245,6 +236,12 @@ function halamanProfil(url) {
     tampilPengalaman()
     tampilRiwayatOrganisasi()
 }
+
+$(window).on('load', () => {
+    $('.animate__animated').each(function() {
+        $(this).addClass('invisible')
+    })
+})
 
 $(window).on('resize', () => {
     const width = window.innerWidth
@@ -259,11 +256,29 @@ $(window).on('resize', () => {
 
 
 $(window).scroll(() => {
-    var position = $(window).scrollTop()
+    var height = $(window).innerHeight()
+    var topPosition = $(window).scrollTop()
+    var bottomPosition = topPosition + height
 
-    if (position >= 100) {
+    if (topPosition >= 100) {
         $('#navigasi').removeClass('position-absolute').addClass('sticky-top')
     } else {
         $('#navigasi').removeClass('sticky-top').addClass('position-absolute')
     }
+
+    $('.animate__animated').each(function() {
+        var $element = $(this)
+        var elementHeight = $element.outerHeight()
+        var elementTopPosition = $element.offset().top
+        var elementBottomPosition = elementTopPosition + elementHeight
+
+        if (elementBottomPosition >= topPosition && elementTopPosition <= bottomPosition) {
+            if ($element.hasClass('invisible')) {
+                $element.removeClass('invisible').addClass('visible')
+            }
+            $element.addClass('animate__fadeInUp', 'animate__slower')
+        } else {
+            $element.removeClass('animate__fadeInUp', 'animate__slower')
+        }
+    })
 })
