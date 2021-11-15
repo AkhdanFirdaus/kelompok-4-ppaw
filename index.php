@@ -95,13 +95,12 @@ $pendidikan = [
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/app.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" /> -->
     <title>Portfolio - <?= $nama ?></title>
 
 </head>
 
 <body>
-    <a href="index.html" class="btn btn-light rounded position-absolute sticky-top mx-5 my-2" id="navigasi"><i class="fas fa-chevron-left"></i></a>
     <div class="container my-5 position-relative">
         <div class="d-flex p-5 bg-light align-items-center" id="intro-section">
             <div class="flex-grow-1 ms-3 animate__animated">
@@ -146,7 +145,7 @@ $pendidikan = [
                     <div class="col">
                         <div class="card w-75 p-2 shadow-sm animate__animated">
                             <div class="card-body">
-                                <h5 class="card-title">${pendidikan.nama.split(' ')[0]}</h5>
+                                <h5 class="card-title"><?= explode(" ", $pend['nama'])[0] ?></h5>
                                 <p class="card-text"><?= $pend['nama'] ?></p>
                                 <p class="card-text"><small class="text-muted"><?= $pend['tahunMulai'] . ' - ' . $pend['tahunSelesai'] ?></small></p>
                             </div>

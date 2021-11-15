@@ -1,29 +1,3 @@
-function halamanProfil(url) {
-    const index = people.findIndex(e => e.url == url);
-    const person = people[index]
-
-    function redirect() {
-        $('#sosmed-redirect').each((item) => {
-            $(item).on('click', () => {
-                if ($(item).hasClass('wa')) {
-                   window.open("tel: " + person.sosmed.wa, '_blank')
-                }
-                
-                if ($(item).hasClass('ig')) {
-                    window.open("https://www.instagram.com/" + person.sosmed.ig, '_blank')
-                }
-                
-                if ($(item).hasClass('twt')) {
-                    window.open("https://twitter.com/" + person.sosmed.twitter, '_blank')
-                }
-            })
-
-
-        })
-    }
-}
-
-
 $(window).on('resize', () => {
     const width = window.innerWidth
     const height = window.innerHeight
